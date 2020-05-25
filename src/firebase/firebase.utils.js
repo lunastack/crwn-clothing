@@ -13,6 +13,38 @@ const config = {
     measurementId: "G-FMTW9K0EN8"
 };
 
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+    if (!userAuth) return;
+
+
+    const userRef = firestore.doc(`users/${ userAuth.uid }`);
+
+    const snapShot = await userRef.get();
+
+    /** 
+    * Si existe, retornamos la referencia al usuario
+    * Si no existe la creamos e igualmente retornamos la referencia al usuario 
+    */
+
+    if (!snapShot.exists) { // si no existe el usuario en NUESTRA DB
+        const { displayName, email } = userAuth;
+        const createdAt = new Date();
+
+        try {
+            await userRef.set({ // cambiamos los datos de la referencia del usuario y cambia los almacena en firebase 
+                displayName,
+                email,
+                createdAt,
+                ...additionalData
+            })
+        } catch (error) {
+            console.log(error, error.message);
+        }
+    }
+
+    return userRef; // retornamos porque aun podemos usar esta referencia despues de crear el nuevo usuario
+}
+
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
