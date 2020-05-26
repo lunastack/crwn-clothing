@@ -1,18 +1,25 @@
 import CartActionsTypes from './cart.types';
-
+import { addItemToCart } from './cart.utils';
 
 const INITIAL_STATE = {
-    hidden: true
+    hidden: true,
+    cartItems: []
 };
-
+ 
 const cartReducer = (state=INITIAL_STATE, action) => {
     switch (action.type) {
         case CartActionsTypes.TOGGLE_CART_HIDDEN:
-            console.log('cart reducer', {...state})
             return {
                 ...state,
-                hidden: !state.hidden
+                hidden:  !state.hidden
             }
+        case CartActionsTypes.ADD_ITEM: 
+            return { 
+                ...state,
+                /* Necesito que me retorna un nuevo array con todos los item y el n uevo item, le sume 1 si se repite y si no que solo lo agrege*/
+                cartItems: addItemToCart(state.cartItems, action.payload)
+                //cartItems: [...state.cartItems, action.payload]
+            } 
         default: 
             return state;
     }
