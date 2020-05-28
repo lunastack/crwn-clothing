@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 //redux
 import { connect } from 'react-redux';
 import { auth } from '../../firebase/firebase.utils'; 
+import { createStructuredSelector } from 'reselect';
+import { selectCartHidden } from '../../redux/cart/cart.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
@@ -34,14 +38,14 @@ const Header = ({currentUser, hidden }) => (
         {
             hidden ? null : <CartDropdown/>
         }
-    </div>
+    </div> 
 );
 
-//Name is standard
-// destructuracion avanzada
-const mapStateToProps = ( {user:{ currentUser}, cart: { hidden}} )  => ({
-    currentUser,
-    hidden
+
+// createStructuredSelector recibe el estado y se lo pasa a 
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    hidden: selectCartHidden
 });
 
 export default connect(mapStateToProps)(Header);
