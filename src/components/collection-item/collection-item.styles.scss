@@ -1,5 +1,5 @@
 .collection-item {
-  width: 22%;
+  width: 22vw;
   display: flex;
   flex-direction: column;
   height: 350px;
@@ -13,8 +13,7 @@
     background-position: center;
     margin-bottom: 5px;
   }
-
-  // no está explicitamente en el componente pero lo renderizará y estara esta clase (al final todo queda en un archivo css)
+    // no está explicitamente en el componente pero lo renderizará y estara esta clase (al final todo queda en un archivo css)
   .custom-button {
     width: 80%;
     opacity: 0.7;
