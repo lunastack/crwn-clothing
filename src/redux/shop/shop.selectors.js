@@ -22,12 +22,24 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsForPreview = createSelector(
     [selectCollections],
-    collections => Object.keys(collections).map( key => collections[key])
+    collections => collections ? Object.keys(collections).map( key => collections[key]) : [] 
 );    
  
 export const selectCollection = collectionUrlParam => 
     createSelector(
         [selectCollections],
         //retorna la coleccion === collectionUrlParam
-        collections => collections[collectionUrlParam] // puede tomar collectionUrl porque esta dentro de esta funcion
+        collections => (collections ? collections[collectionUrlParam] : null) // puede tomar collectionUrl porque esta dentro de esta funcion
     ); 
+
+export const selectCollectionFetching = createSelector(
+    [selectShop],
+    shop => shop.isFetching
+);
+
+
+/* Este selector es para nuestro  */
+export const selectIsCollectionsLoaded = createSelector(
+    [selectShop],
+    shop => !!shop.collections // si esta el objeto, entonces retorna true, si no false
+);
