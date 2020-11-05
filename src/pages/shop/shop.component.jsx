@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -6,33 +6,25 @@ import CollectionsOverviewContainer from '../../components/collections-overview/
 import CollectionPageContainer from '../collection/collection.container';
 
 import { fetchCollectionsStart } from '../../redux/shop/shop.actions';
-  
+
 
 // match --> /shop  --> que la ruta que renderiza este page-component 
 // siempre renderizemos este component tendra 'shop', por lo tanto siempre sera exacto y siempre mostraremos collection preview
 // si no es exact, quiere decir que viene con un parametro, por lo tanto renderizamos category page pasandole el id de la categoria
-class ShopPage extends React.Component {
+const ShopPage = ({ fetchCollectionsStart, match }) => {
 
-    componentDidMount () {     
-        console.log('montando componente realizando peticion');
-        const { fetchCollectionsStart } = this.props;
+    useEffect(() => {
+     
         fetchCollectionsStart();
-        // Observer Pattern
-        /* collectionRef.onSnapshot( async snapshot => {
-            const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-            updateCollections(collectionsMap);
-            this.setState({ loading: false });
-        }); */
-    }
 
-    render() {
-        const { match } = this.props;
-        return (<div className='shop-page'>
-            <Route exact path={`${match.path}`} component={CollectionsOverviewContainer} />
-            <Route path={`${match.path}/:collectionId`} component={CollectionPageContainer} />
-        </div>)
+    }, [fetchCollectionsStart])
 
-    }
+    return (<div className='shop-page'>
+        <Route exact path={`${match.path}`} component={CollectionsOverviewContainer} />
+        <Route path={`${match.path}/:collectionId`} component={CollectionPageContainer} />
+    </div>)
+
+  
 }
 
 const mapDispatchToProps = dispatch => ({
